@@ -1,8 +1,9 @@
+// Solution for problem Scale Generator.
 package scale
 
 import "strings"
 
-// Scale will return musical scale given starting note and intervals
+// Scale will return musical scale given starting note and intervals.
 func Scale(tonic, interval string) (scale []string) {
 	sharpScales := []string{"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"}
 

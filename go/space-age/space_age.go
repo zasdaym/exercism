@@ -1,3 +1,4 @@
+// Solution for problem Space Age.
 package space
 
 type Planet string

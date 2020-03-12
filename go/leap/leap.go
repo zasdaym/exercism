@@ -1,8 +1,7 @@
-// Package leap should have a package comment that summarizes what it's about.
-// https://golang.org/doc/effective_go.html#commentary
+// Solution for problem Leap.
 package leap
 
-// IsLeapYear should have a comment documenting it.
+// IsLeapYear check if a given integer is a leap year.
 func IsLeapYear(year int) bool {
 	isLeap := false
 	if year % 4 == 0 {

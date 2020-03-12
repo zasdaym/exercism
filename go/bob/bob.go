@@ -1,8 +1,4 @@
-// This is a "stub" file.  It's a little start on your solution.
-// It's not a complete solution though; you have to write some code.
-
-// Package bob should have a package comment that summarizes what it's about.
-// https://golang.org/doc/effective_go.html#commentary
+// Solution for problem Bob.
 package bob
 
 import (
@@ -10,7 +6,7 @@ import (
 	"strings"
 )
 
-// Hey should have a comment documenting it.
+// Hey will return a specific string response depends on the given string.
 func Hey(remark string) string {
 	if isNothing(remark) {
 		return "Fine. Be that way!"

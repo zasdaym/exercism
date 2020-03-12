@@ -1,13 +1,14 @@
+// Solution for problem List Ops.
 package listops
 
-// IntList is a list implementation in go
+// IntList is a list of integers.
 type IntList []int
 
 type binFunc func(int, int) int
 type predFunc func(int) bool
 type unaryFunc func(int) int
 
-// Length return total items in list
+// Length return total items in list.
 func (intList IntList) Length() int {
 	count := 0
 	for range intList {
@@ -16,7 +17,7 @@ func (intList IntList) Length() int {
 	return count
 }
 
-// Reverse will return the list backwards
+// Reverse will return the list backwards.
 func (intList IntList) Reverse() IntList {
 	for i := len(intList)/2 - 1; i >= 0; i-- {
 		opp := len(intList) - 1 - i
@@ -25,12 +26,12 @@ func (intList IntList) Reverse() IntList {
 	return intList
 }
 
-// Append will return the list appended with the new list
+// Append will return the list appended with the new list.
 func (intList IntList) Append(newList IntList) IntList {
 	return append(intList, newList...)
 }
 
-// Concat will return the list appended with the new lists
+// Concat will return the list appended with the new lists.
 func (intList IntList) Concat(newLists []IntList) IntList {
 	result := intList
 	for _, newList := range newLists {
@@ -39,7 +40,7 @@ func (intList IntList) Concat(newLists []IntList) IntList {
 	return result
 }
 
-// Map will return the list applied with the given function
+// Map will return the list applied with the given function.
 func (intList IntList) Map(f unaryFunc) IntList {
 	result := make(IntList, intList.Length())
 	for i, item := range intList {
@@ -48,7 +49,7 @@ func (intList IntList) Map(f unaryFunc) IntList {
 	return result
 }
 
-// Filter will return the list filtered with the given function
+// Filter will return the list filtered with the given function.
 func (intList IntList) Filter(f predFunc) IntList {
 	result := IntList{}
 	for _, item := range intList {
@@ -59,7 +60,7 @@ func (intList IntList) Filter(f predFunc) IntList {
 	return result
 }
 
-// Foldr will return
+// Foldr will fold each item in list into the accumulator from the right using function(item, accumulator).
 func (intList IntList) Foldr(f binFunc, initial int) int {
 	length := intList.Length()
 	if length == 0 {
@@ -73,7 +74,7 @@ func (intList IntList) Foldr(f binFunc, initial int) int {
 	return counter
 }
 
-// Foldl will return
+// Foldl will fold each item in list into the accumulator from the left using function(accumulator, item).
 func (intList IntList) Foldl(f binFunc, initial int) int {
 	length := intList.Length()
 	if length == 0 {

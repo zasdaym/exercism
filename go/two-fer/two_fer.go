@@ -1,13 +1,10 @@
-// Package twofer should have a package comment that summarizes what it's about.
-// https://golang.org/doc/effective_go.html#commentary
+// Solution for Two Fer problem.
 package twofer
 
-// ShareWith should have a comment documenting it.
+// ShareWith will returns 'One for [name], one for me.' given a name, it fhe name is blank, name will be default to 'you'
 func ShareWith(name string) string {
-	subject := "you"
-
-	if name != "" {
-		subject = name
+	if name == "" {
+		name = "you"
 	}
 
 	return "One for " + subject + ", one for me."

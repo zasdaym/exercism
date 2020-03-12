@@ -1,4 +1,4 @@
-// Solution for problem Collatz Conjecture
+// Package collatzconjecture is solution for problem Collatz Conjecture.
 package collatzconjecture
 
 import (
@@ -13,10 +13,10 @@ func CollatzConjecture(n int) (int, error) {
 
 	count := 0
 	for n != 1 {
-		if n % 2 == 0 {
+		if n%2 == 0 {
 			n /= 2
 		} else {
-			n = n * 3 + 1
+			n = n*3 + 1
 		}
 		count++
 	}

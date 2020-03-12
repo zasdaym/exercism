@@ -1,4 +1,4 @@
-// Solution for problem Gigasecond.
+// Package gigasecond is solution for problem Gigasecond.
 package gigasecond
 
 import "time"

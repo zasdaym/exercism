@@ -1,4 +1,4 @@
-// Solution for problem Scale Generator.
+// Package scale is solution for problem Scale Generator.
 package scale
 
 import "strings"

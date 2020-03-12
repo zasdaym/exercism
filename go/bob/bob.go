@@ -1,9 +1,9 @@
-// Solution for problem Bob.
+// Package bob is solution for problem Bob.
 package bob
 
 import (
-	"unicode"
 	"strings"
+	"unicode"
 )
 
 // Hey will return a specific string response depends on the given string.

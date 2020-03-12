@@ -1,4 +1,4 @@
-// Solution for problem List Ops.
+// Package listops is solution for problem List Ops.
 package listops
 
 // IntList is a list of integers.

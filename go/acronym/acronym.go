@@ -1,4 +1,4 @@
-// Solution for problem Acronym.
+// Package acronym is solution for problem Acronym.
 package acronym
 
 import (

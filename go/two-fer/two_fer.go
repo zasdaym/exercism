@@ -7,5 +7,5 @@ func ShareWith(name string) string {
 		name = "you"
 	}
 
-	return "One for " + subject + ", one for me."
+	return "One for " + name + ", one for me."
 }

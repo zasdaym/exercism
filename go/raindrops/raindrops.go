@@ -2,7 +2,6 @@
 package raindrops
 
 import (
-	"fmt"
 	"strconv"
 )
 
@@ -11,19 +10,19 @@ func Convert(n int) string {
 	result := ""
 
 	if n%3 == 0 {
-		result = fmt.Sprintf("%s%s", result, "Pling")
+		result += "Pling"
 	}
 
 	if n%5 == 0 {
-		result = fmt.Sprintf("%s%s", result, "Plang")
+		result += "Plang"
 	}
 
 	if n%7 == 0 {
-		result = fmt.Sprintf("%s%s", result, "Plong")
+		result += "Plong"
 	}
 
 	if result == "" {
-		return strconv.FormatInt(int64(n), 10)
+		return strconv.Itoa(n)
 	}
 
 	return result

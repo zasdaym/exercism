@@ -1,5 +1,5 @@
 class ResistorColorDuo
-  @@codes = {
+  CODES = {
     'black'  => 0,
     'brown'  => 1,
     'red'    => 2,
@@ -13,6 +13,6 @@ class ResistorColorDuo
   }
 
   def self.value(colors)
-    @@codes[colors[0]] * 10 + @@codes[colors[1]]
+    CODES[colors[0]] * 10 + CODES[colors[1]]
   end
 end

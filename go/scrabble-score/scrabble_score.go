@@ -3,6 +3,7 @@ package scrabble
 
 import "unicode"
 
+// Score will return the scrabble score of the given word.
 func Score(s string) int {
 	if s == "" {
 		return 0

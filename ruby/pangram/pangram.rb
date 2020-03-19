@@ -1,5 +1,5 @@
 class Pangram
   def self.pangram?(sentence)
-    sentence.tr('^A-Za-z', '').split('').uniq.sort.join('').downcase == 'abcdefghijklmnopqrstuvwxyz'
+    sentence.upcase.gsub(/[^A-Z]/, "").chars.sort.join.squeeze == "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   end
 end

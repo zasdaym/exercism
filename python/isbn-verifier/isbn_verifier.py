@@ -1,18 +1,19 @@
 def is_valid(isbn):
-    splitted = list("".join(isbn.split("-")))
-    if len(splitted) != 10 or not "".join(splitted[:-1]).isdigit():
+    new_isbn = list("".join(isbn.split("-")))
+
+    if len(new_isbn) != 10:
         return False
 
-    if not splitted[-1].isdigit() and splitted[-1] != "X":
+    if "X" == new_isbn[-1]:
+        new_isbn[-1] = "10"
+
+    if not "".join(new_isbn).isdigit():
         return False
 
     sum = 0
-    for i in range(9):
-        sum += int(splitted[i]) * (10-i)
-
-    if splitted[-1] == "X":
-        sum += 10
-    else:
-        sum += int(splitted[-1])
+    multiplier = 10
+    for i in new_isbn:
+        sum += int(i) * multiplier
+        multiplier -= 1 
 
     return sum % 11 == 0

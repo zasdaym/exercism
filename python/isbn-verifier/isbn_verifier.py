@@ -8,7 +8,6 @@ def is_valid(isbn):
 
     sum = 0
     for i in range(9):
-        print(f"{splitted[i]} * {10-i}")
         sum += int(splitted[i]) * (10-i)
 
     if splitted[-1] == "X":
@@ -16,5 +15,4 @@ def is_valid(isbn):
     else:
         sum += int(splitted[-1])
 
-    print(f"sum is {sum} mod is {sum % 11}")
     return sum % 11 == 0

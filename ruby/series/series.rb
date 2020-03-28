@@ -8,8 +8,6 @@ class Series
       raise ArgumentError.new("Slice length exceeds series length")
     end
 
-    result = []
-    @series.each_cons(length) { |slice| result.append(slice.join) }
-    result
+    @series.each_cons(length).map(&:join)
   end
 end

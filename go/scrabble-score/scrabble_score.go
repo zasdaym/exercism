@@ -34,10 +34,6 @@ var scores = map[rune]int{
 
 // Score will return the scrabble score of the given word.
 func Score(s string) int {
-	if s == "" {
-		return 0
-	}
-
 	score := 0
 	for _, c := range s {
 		score += scores[unicode.ToUpper(c)]

@@ -2,22 +2,22 @@
 package isogram
 
 import (
-	"regexp"
-	"strings"
+	"unicode"
 )
-
-var regex = regexp.MustCompile("[^a-zA-Z]+")
 
 // IsIsogram will check if given string is an isogram
 func IsIsogram(s string) bool {
-	letters := regex.ReplaceAllString(strings.ToLower(s), "")
 	checked := map[rune]bool{}
-	for _, letter := range letters {
-		if _, ok := checked[letter]; ok {
-			return false
+	for _, c := range s {
+		if unicode.IsLetter(c) {
+			char := unicode.ToLower(c)
+			if checked[char] {
+				return false
+			}
+			
+			checked[char] = true
 		}
 
-		checked[letter] = true
 	}
 
 	return true

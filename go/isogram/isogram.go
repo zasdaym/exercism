@@ -14,7 +14,7 @@ func IsIsogram(s string) bool {
 			if checked[char] {
 				return false
 			}
-			
+
 			checked[char] = true
 		}
 

@@ -7,17 +7,17 @@ import (
 )
 
 // Valid determines if given numbers is valid per the Luhn formula.
-func Valid(numbers string) bool {
-	runes := []rune(strings.ReplaceAll(numbers, " ", ""))
-	if len(runes) <= 1 {
+func Valid(s string) bool {
+	numbers := strings.ReplaceAll(s, " ", "")
+	if len(numbers) <= 1 {
 		return false
 	}
 
 	total := 0
-	toDouble := len(runes)%2 == 0
+	toDouble := len(numbers)%2 == 0
 
-	for _, r := range runes {
-		num, err := strconv.Atoi(string(r))
+	for _, n := range numbers {
+		num, err := strconv.Atoi(string(n))
 		if err != nil {
 			return false
 		}

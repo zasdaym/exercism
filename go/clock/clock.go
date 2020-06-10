@@ -26,12 +26,12 @@ func (c Clock) String() string {
 
 // Add returns Clock added with given minutes.
 func (c Clock) Add(minutes int) Clock {
-	return New(0, c.minutes + minutes)
+	return New(0, c.minutes+minutes)
 }
 
 // Subtract returns Clock subtracted with given minutes.
 func (c Clock) Subtract(minutes int) Clock {
-	return New(0, c.minutes - minutes)
+	return New(0, c.minutes-minutes)
 }
 
 func mod(x, m int) int {

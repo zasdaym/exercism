@@ -2,8 +2,8 @@
 package luhn
 
 import (
-	"strings"
 	"strconv"
+	"strings"
 )
 
 // Valid determines if given numbers is valid per the Luhn formula.

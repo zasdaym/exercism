@@ -39,7 +39,7 @@ func Sum(n int) []Triplet {
 	for _, triplet := range Range(1, n) {
 		if triplet.Sum() == n {
 			result = append(result, triplet)
-		}	
+		}
 	}
 	return result
 }

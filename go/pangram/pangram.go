@@ -2,8 +2,8 @@
 package pangram
 
 import (
-	"unicode"
 	"strings"
+	"unicode"
 )
 
 // IsPangram checks if given string is a pangram.

@@ -1,17 +1,8 @@
 // Package letter is solution for problem Parallel Letter Frequency.
 package letter
 
-import (
-	"sync"
-)
-
 // FreqMap records the frequency of each rune in a given text.
 type FreqMap map[rune]int
-
-type freqMapMutex struct {
-	freqMap FreqMap
-	sync.Mutex
-}
 
 // Frequency counts the frequency of each rune in a given text and returns this
 // data as a FreqMap.
@@ -23,25 +14,21 @@ func Frequency(s string) FreqMap {
 	return m
 }
 
-// ConcurrentFrequency counts the Frequency of each rune in a given text concurrently.
+// ConcurrentFrequency counts the Frequency of each rune in given texts concurrently.
 func ConcurrentFrequency(texts []string) FreqMap {
-	m := freqMapMutex{
-		freqMap: FreqMap{},
-	}
-	var wg sync.WaitGroup
+	ch := make(chan FreqMap)
 	for _, text := range texts {
-		wg.Add(1)
-		go countLetter(text, &m, &wg)
+		go func(s string) {
+			ch <- Frequency(s)
+		}(text)
 	}
-	wg.Wait()
-	return m.freqMap
+
+	m := <-ch
+	for range texts[1:] {
+		for k, v := range <-ch {
+			m[k] += v
+		}
+	}
+	return m
 }
 
-func countLetter(text string, m *freqMapMutex, wg *sync.WaitGroup) {
-	for _, r := range text {
-		m.Lock()
-		m.freqMap[r]++
-		m.Unlock()
-	}
-	wg.Done()
-}

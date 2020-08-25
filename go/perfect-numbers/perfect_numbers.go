@@ -1,3 +1,4 @@
+// Package perfect is solution for problem Perfect Numbers.
 package perfect
 
 import (
@@ -5,6 +6,7 @@ import (
 	"math"
 )
 
+// Classification is number classification based by its factors sum.
 type Classification int
 
 const (
@@ -15,6 +17,7 @@ const (
 
 var ErrOnlyPositive = fmt.Errorf("input must be a positive number")
 
+// Classify classifies given integer with its factors sum.
 func Classify(n int64) (Classification, error) {
 	if n < 1 {
 		return ClassificationDeficient, ErrOnlyPositive

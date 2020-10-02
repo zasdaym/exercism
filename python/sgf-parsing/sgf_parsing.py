@@ -27,6 +27,38 @@ class SgfTree:
 
 def parse(input_string):
     if input_string == "":
-        raise ValueError("Input can't be empty string")
+        raise ValueError("Input can't be empty")
+    if input_string == "()":
+        raise ValueError("Tree can't be empty")
+    if input_string == ";":
+        raise ValueError("Node must be in a tree")
+    if input_string == "(;)":
+        return SgfTree()
 
-    if input_string == "()"
+    input_string = input_string[2:-1]
+    prop_node, *child_nodes = input_string.replace(")", "").replace(";", "(;").replace("((;", "(;").split("(;")
+
+    return SgfTree(
+        properties=create_node(prop_node),
+        children=[SgfTree(create_node(child)) for child in child_nodes]
+    )
+
+def create_node(input_string):
+    input_entries = input_string \
+        .replace("\t", " ") \
+        .replace("\\]", "¤") \
+        .replace("]", "#") \
+        .replace("#[", "[") \
+        .split("#")
+
+    new_node = {}
+    for node_entry in filter(None, input_entries):
+        node_key, *node_values = node_entry.split("[")
+
+        if not node_key.isupper():
+            raise ValueError("Node key must be uppercase")
+        if len(node_values) == 0:
+            raise ValueError("Key must have values associated to it")
+
+        new_node[node_key] = [value.replace("]", "").replace("¤", "]") for value in node_values]
+    return new_node

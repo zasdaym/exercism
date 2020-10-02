@@ -8,20 +8,29 @@ import (
 const rootID = 0
 
 type (
+	// Node represents a node in a tree.
 	Node struct {
-		ID int
+		ID       int
 		Children []*Node
 	}
 
+	// Record represents a post record.
 	Record struct {
-		ID int
+		ID     int
 		Parent int
 	}
 )
 
-var ErrInvalidRecordID = fmt.Errorf("invalid record ID, must be between 0 - records length")
-var ErrNonContinuousNode = fmt.Errorf("non-continuous node")
-var ErrInvalidParent = fmt.Errorf("node has invalid parent")
+var (
+	// ErrInvalidRecordID represents an invalid Record ID
+	ErrInvalidRecordID = fmt.Errorf("invalid record ID, must be between 0 - records length")
+
+	// ErrNonContinuousNode represents non-continuous input records ID
+	ErrNonContinuousNode = fmt.Errorf("non-continuous node")
+
+	// ErrInvalidParent represents invalid Parent ID on a Record.
+	ErrInvalidParent = fmt.Errorf("node has invalid parent")
+)
 
 // Build returns a root node of built tree from given records.
 func Build(records []Record) (*Node, error) {

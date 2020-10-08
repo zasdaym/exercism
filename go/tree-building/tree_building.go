@@ -35,36 +35,37 @@ var (
 
 // Build creates a Tree built from given Records and returns its root node.
 func Build(records []Record) (*Node, error) {
-	// edge case for zero record
 	if len(records) == 0 {
 		return nil, nil
 	}
 
-	// sort given records by ID
 	sort.Slice(records, func(i, j int) bool { return records[i].ID < records[j].ID })
+	if err := checkRecords(records); err != nil {
+		return nil, err
+	}
 
-	// range over sorted records
 	nodes := make([]Node, len(records))
 	for i, r := range records {
-		// check if record ID doesn't match the sorted index
-		if r.ID != i {
-			return nil, ErrNonContinuousNode
-		}
-
-		// check if parent ID of a record is valid
-		isValidParentID := (r.ID > r.Parent) || (r.ID == rootID && r.Parent == rootID)
-		if !isValidParentID {
-			return nil, ErrInvalidParent
-		}
-
-		// append current record to tree
 		nodes[i].ID = i
 		if i != rootID {
-			// add current record as children of its parent
 			parent := &nodes[r.Parent]
 			parent.Children = append(parent.Children, &nodes[i])
 		}
 	}
 
 	return &nodes[0], nil
+}
+
+func checkRecords(records []Record) error {
+	for i, r := range records {
+		if r.ID != i {
+			return ErrNonContinuousNode
+		}
+
+		isValidParentID := (r.ID > r.Parent) || (r.ID == rootID && r.Parent == rootID)
+		if !isValidParentID {
+			return ErrInvalidParent
+		}
+	}
+	return nil
 }

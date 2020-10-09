@@ -8,30 +8,17 @@ import (
 
 const rootID = 0
 
-type (
-	// Node represents a node in a tree.
-	Node struct {
-		ID       int
-		Children []*Node
-	}
+// Node represents a node in a tree.
+type Node struct {
+	ID       int
+	Children []*Node
+}
 
-	// Record represents a post record.
-	Record struct {
-		ID     int
-		Parent int
-	}
-)
-
-var (
-	// ErrInvalidRecordID represents an invalid Record ID
-	ErrInvalidRecordID = fmt.Errorf("invalid record ID, must be between 0 - records length")
-
-	// ErrNonContinuousNode represents non-continuous input records ID
-	ErrNonContinuousNode = fmt.Errorf("non-continuous node")
-
-	// ErrInvalidParent represents invalid Parent ID on a Record.
-	ErrInvalidParent = fmt.Errorf("node has invalid parent")
-)
+// Record represents a post record.
+type Record struct {
+	ID     int
+	Parent int
+}
 
 // Build creates a Tree built from given Records and returns its root node.
 func Build(records []Record) (*Node, error) {
@@ -40,8 +27,10 @@ func Build(records []Record) (*Node, error) {
 	}
 
 	sort.Slice(records, func(i, j int) bool { return records[i].ID < records[j].ID })
-	if err := checkRecords(records); err != nil {
-		return nil, err
+	for i, r := range records {
+		if r.ID != i || r.ID < r.Parent || r.ID != rootID && r.ID == r.Parent {
+			return nil, fmt.Errorf("invalid record")
+		}
 	}
 
 	nodes := make([]Node, len(records))
@@ -54,18 +43,4 @@ func Build(records []Record) (*Node, error) {
 	}
 
 	return &nodes[0], nil
-}
-
-func checkRecords(records []Record) error {
-	for i, r := range records {
-		if r.ID != i {
-			return ErrNonContinuousNode
-		}
-
-		isValidParentID := (r.ID > r.Parent) || (r.ID == rootID && r.Parent == rootID)
-		if !isValidParentID {
-			return ErrInvalidParent
-		}
-	}
-	return nil
 }

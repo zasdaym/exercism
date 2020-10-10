@@ -27,20 +27,17 @@ func Build(records []Record) (*Node, error) {
 	}
 
 	sort.Slice(records, func(i, j int) bool { return records[i].ID < records[j].ID })
+	nodes := make([]Node, len(records))
 	for i, r := range records {
 		if r.ID != i || r.ID < r.Parent || r.ID != rootID && r.ID == r.Parent {
 			return nil, fmt.Errorf("invalid record")
 		}
-	}
 
-	nodes := make([]Node, len(records))
-	for i, r := range records {
 		nodes[i].ID = i
 		if i != rootID {
 			parent := &nodes[r.Parent]
 			parent.Children = append(parent.Children, &nodes[i])
 		}
 	}
-
 	return &nodes[0], nil
 }

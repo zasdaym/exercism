@@ -30,7 +30,7 @@ func Build(records []Record) (*Node, error) {
 	nodes := make([]Node, len(records))
 	for i, r := range records {
 		if r.ID != i || r.ID < r.Parent || r.ID != rootID && r.ID == r.Parent {
-			return nil, fmt.Errorf("invalid record")
+			return nil, fmt.Errorf("invalid record: %v", r)
 		}
 
 		nodes[i].ID = i

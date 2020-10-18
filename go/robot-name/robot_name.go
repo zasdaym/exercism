@@ -35,8 +35,8 @@ func randomName() (string, error) {
 
 func generateLetters(counter int) string {
 	n := (counter / 1000) + 65
-	first := string(rune(n / 65))
-	second := string(rune(n % 65))
+	first := string(rune(n / 65 + 65))
+	second := string(rune(n % 65 + 65))
 	return first + second
 }
 

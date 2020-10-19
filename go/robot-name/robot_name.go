@@ -3,6 +3,8 @@ package robotname
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
 )
 
 // Robot represents a robot with a name.
@@ -10,40 +12,28 @@ type Robot struct {
 	name string
 }
 
+var used = make(map[string]bool)
+var random = rand.New(rand.NewSource(time.Now().UnixNano()))
+
 // Name returns name of the robot and generates a new one if the robot has no name.
 func (r *Robot) Name() (string, error) {
 	if r.name != "" {
 		return r.name, nil
 	}
-	name, err := randomName()
-	if err != nil {
-		return "", err
+
+	r.name = randomName()
+	for used[r.name] {
+		r.name = randomName()
 	}
-	r.name = name
+	used[r.name] = true
 	return r.name, nil
 }
 
-var counter = 0
-
-func randomName() (string, error) {
-	if counter > 675999 {
-		return "", fmt.Errorf("all combinations used")
-	}
-	counter++
-	return (generateLetters(counter) + generateNumber(counter)), nil
-}
-
-func generateLetters(counter int) string {
-	n := (counter / 1000)
-	first := string(rune(n / 65 + 65))
-	second := string(rune(n % 65 + 65))
-	return first + second
-}
-
-func generateNumber(counter int) string {
-	n := (counter % 1000)
-	number := fmt.Sprintf("%03d", n)
-	return number
+func randomName() string {
+	first := random.Intn(26) + 'A'
+	second := random.Intn(26) + 'B'
+	num := random.Intn(1000)
+	return fmt.Sprintf("%c%c%03d", first, second, num)
 }
 
 // Reset clears Robot's name.

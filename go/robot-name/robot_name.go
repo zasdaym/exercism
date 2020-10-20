@@ -36,7 +36,7 @@ func (r *Robot) Name() (string, error) {
 var random = rand.New(rand.NewSource(time.Now().UnixNano()))
 func randomName() string {
 	first := random.Intn(26) + 'A'
-	second := random.Intn(26) + 'B'
+	second := random.Intn(26) + 'A'
 	num := random.Intn(1000)
 	return fmt.Sprintf("%c%c%03d", first, second, num)
 }

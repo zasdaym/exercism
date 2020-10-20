@@ -17,12 +17,12 @@ var used = make(map[string]bool)
 
 // Name returns name of the robot and generates a new one if the robot has no name.
 func (r *Robot) Name() (string, error) {
-	if len(used) >= limit {
-		return "", fmt.Errorf("name exhausted")
-	}
-
 	if r.name != "" {
 		return r.name, nil
+	}
+
+	if len(used) >= limit {
+		return "", fmt.Errorf("name exhausted")
 	}
 
 	r.name = randomName()

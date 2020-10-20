@@ -12,11 +12,15 @@ type Robot struct {
 	name string
 }
 
+const limit = 26 * 26 * 10 * 10 * 10
 var used = make(map[string]bool)
-var random = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 // Name returns name of the robot and generates a new one if the robot has no name.
 func (r *Robot) Name() (string, error) {
+	if len(used) >= limit {
+		return "", fmt.Errorf("name exhausted")
+	}
+
 	if r.name != "" {
 		return r.name, nil
 	}
@@ -29,6 +33,7 @@ func (r *Robot) Name() (string, error) {
 	return r.name, nil
 }
 
+var random = rand.New(rand.NewSource(time.Now().UnixNano()))
 func randomName() string {
 	first := random.Intn(26) + 'A'
 	second := random.Intn(26) + 'B'

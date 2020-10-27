@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// Team represents a team.
 type Team struct {
 	name   string
 	played int
@@ -21,6 +22,7 @@ func (t Team) String() string {
 	return fmt.Sprintf("%-30s | %2d | %2d | %2d | %2d | %2d", t.name, t.played, t.win, t.draw, t.loss, t.point)
 }
 
+// Result represents a tournament standings.
 type Result []*Team
 
 func (r Result) Len() int {
@@ -38,6 +40,7 @@ func (r Result) Swap(i, j int) {
 	r[i], r[j] = r[j], r[i]
 }
 
+// Teams represents all team data before sorted.
 type Teams map[string]*Team
 
 // Tally read teams matches from a io.Reader and prints the result to the given io.Writer.

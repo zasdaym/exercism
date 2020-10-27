@@ -18,6 +18,7 @@ type Team struct {
 	point  int
 }
 
+// String returns string representation of a team.
 func (t Team) String() string {
 	return fmt.Sprintf("%-30s | %2d | %2d | %2d | %2d | %2d", t.name, t.played, t.win, t.draw, t.loss, t.point)
 }
@@ -25,10 +26,12 @@ func (t Team) String() string {
 // Result represents a tournament standings.
 type Result []*Team
 
+// Len returns length of a tournament result.
 func (r Result) Len() int {
 	return len(r)
 }
 
+// Less compares two elements of a tournament result.
 func (r Result) Less(i, j int) bool {
 	if r[i].point == r[j].point {
 		return strings.Compare(r[i].name, r[j].name) > 0
@@ -36,6 +39,7 @@ func (r Result) Less(i, j int) bool {
 	return r[i].point < r[j].point
 }
 
+// Swap swaps two elements position in a tournament result.
 func (r Result) Swap(i, j int) {
 	r[i], r[j] = r[j], r[i]
 }
@@ -65,6 +69,7 @@ func Tally(r io.Reader, w io.Writer) error {
 	return printResult(w, result)
 }
 
+// generateResult generates tournament result from slice of teams.
 func generateResult(teams Teams) Result {
 	var result Result
 	for _, team := range teams {
@@ -74,6 +79,7 @@ func generateResult(teams Teams) Result {
 	return result
 }
 
+// checkMatch checks if given match record is valid.
 func checkMatch(match []string) error {
 	if len(match) != 3 {
 		return fmt.Errorf("wrong match format")
@@ -84,6 +90,7 @@ func checkMatch(match []string) error {
 	return nil
 }
 
+// processMatch processes a match record.
 func processMatch(teams Teams, match []string) {
 	if _, ok := teams[match[0]]; !ok {
 		teams[match[0]] = &Team{name: match[0]}
@@ -111,6 +118,7 @@ func processMatch(teams Teams, match []string) {
 	}
 }
 
+// printResult prints tournament result in table format to given writer.
 func printResult(w io.Writer, result Result) error {
 	if _, err := w.Write([]byte("Team                           | MP |  W |  D |  L |  P\n")); err != nil {
 		return err

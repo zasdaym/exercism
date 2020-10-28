@@ -24,7 +24,7 @@ func (t Team) String() string {
 }
 
 // Result represents a tournament standings.
-type Result []*Team
+type Result []Team
 
 // Len returns length of a tournament result.
 func (r Result) Len() int {
@@ -34,9 +34,9 @@ func (r Result) Len() int {
 // Less compares two elements of a tournament result.
 func (r Result) Less(i, j int) bool {
 	if r[i].point == r[j].point {
-		return strings.Compare(r[i].name, r[j].name) > 0
+		return strings.Compare(r[i].name, r[j].name) < 0
 	}
-	return r[i].point < r[j].point
+	return r[i].point > r[j].point
 }
 
 // Swap swaps two elements position in a tournament result.
@@ -45,7 +45,7 @@ func (r Result) Swap(i, j int) {
 }
 
 // Teams represents all team data before sorted.
-type Teams map[string]*Team
+type Teams map[string]Team
 
 // Tally read teams matches from a io.Reader and prints the result to the given io.Writer.
 func Tally(r io.Reader, w io.Writer) error {
@@ -75,7 +75,7 @@ func generateResult(teams Teams) Result {
 	for _, team := range teams {
 		result = append(result, team)
 	}
-	sort.Sort(sort.Reverse(result))
+	sort.Sort(result)
 	return result
 }
 
@@ -92,13 +92,9 @@ func checkMatch(match []string) error {
 
 // processMatch processes a match record.
 func processMatch(teams Teams, match []string) {
-	if _, ok := teams[match[0]]; !ok {
-		teams[match[0]] = &Team{name: match[0]}
-	}
-	if _, ok := teams[match[1]]; !ok {
-		teams[match[1]] = &Team{name: match[1]}
-	}
 	home, away := teams[match[0]], teams[match[1]]
+	home.name = match[0]
+	away.name = match[1]
 	home.played++
 	away.played++
 	switch match[2] {
@@ -116,6 +112,7 @@ func processMatch(teams Teams, match []string) {
 		away.draw++
 		away.point++
 	}
+	teams[match[0]], teams[match[1]] = home, away
 }
 
 // printResult prints tournament result in table format to given writer.

@@ -34,7 +34,7 @@ func (r Result) Len() int {
 // Less compares two elements of a tournament result.
 func (r Result) Less(i, j int) bool {
 	if r[i].point == r[j].point {
-		return strings.Compare(r[i].name, r[j].name) < 0
+		return r[i].name < r[j].name
 	}
 	return r[i].point > r[j].point
 }
@@ -117,11 +117,11 @@ func processMatch(teams Teams, match []string) {
 
 // printResult prints tournament result in table format to given writer.
 func printResult(w io.Writer, result Result) error {
-	if _, err := w.Write([]byte("Team                           | MP |  W |  D |  L |  P\n")); err != nil {
+	if _, err := fmt.Fprintf(w, "Team                           | MP |  W |  D |  L |  P\n"); err != nil {
 		return err
 	}
 	for _, team := range result {
-		if _, err := w.Write([]byte(fmt.Sprintf("%s\n", team))); err != nil {
+		if _, err := fmt.Fprintf(w, fmt.Sprintf("%s\n", team)); err != nil {
 			return err
 		}
 	}

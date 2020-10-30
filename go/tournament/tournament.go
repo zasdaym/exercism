@@ -31,6 +31,16 @@ type Teams map[string]Team
 
 // Tally read teams matches from a io.Reader and prints the result to the given io.Writer.
 func Tally(r io.Reader, w io.Writer) error {
+	teams, err := readMatches(r)
+	if err != nil {
+		return err
+	}
+	result := generateResult(teams)
+	return printResult(w, result)
+}
+
+// readMatches reads match records from a io.Reader and returns teams stats from it.
+func readMatches(r io.Reader) (Teams, error) {
 	teams := make(Teams)
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
@@ -43,12 +53,11 @@ func Tally(r io.Reader, w io.Writer) error {
 			continue
 		}
 		if err := checkMatch(match); err != nil {
-			return err
+			return nil, err
 		}
 		processMatch(teams, match)
 	}
-	result := generateResult(teams)
-	return printResult(w, result)
+	return teams, nil
 }
 
 // checkMatch checks if given match record is valid.

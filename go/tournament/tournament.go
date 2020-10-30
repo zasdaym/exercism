@@ -15,34 +15,16 @@ type Team struct {
 	win    int
 	loss   int
 	draw   int
-	point  int
+	points  int
 }
 
 // String returns string representation of a team.
 func (t Team) String() string {
-	return fmt.Sprintf("%-30s | %2d | %2d | %2d | %2d | %2d", t.name, t.played, t.win, t.draw, t.loss, t.point)
+	return fmt.Sprintf("%-30s | %2d | %2d | %2d | %2d | %2d", t.name, t.played, t.win, t.draw, t.loss, t.points)
 }
 
 // Result represents a tournament standings.
 type Result []Team
-
-// Len returns length of a tournament result.
-func (r Result) Len() int {
-	return len(r)
-}
-
-// Less compares two elements of a tournament result.
-func (r Result) Less(i, j int) bool {
-	if r[i].point == r[j].point {
-		return r[i].name < r[j].name
-	}
-	return r[i].point > r[j].point
-}
-
-// Swap swaps two elements position in a tournament result.
-func (r Result) Swap(i, j int) {
-	r[i], r[j] = r[j], r[i]
-}
 
 // Teams represents all team data before sorted.
 type Teams map[string]Team
@@ -69,25 +51,31 @@ func Tally(r io.Reader, w io.Writer) error {
 	return printResult(w, result)
 }
 
+// checkMatch checks if given match record is valid.
+func checkMatch(match []string) error {
+	if len(match) != 3 {
+		return fmt.Errorf("wrong match format")
+	}
+	switch match[2] {
+	case "win", "loss", "draw":
+		return nil
+	}
+	return fmt.Errorf("match result must be win, loss, or draw")
+}
+
 // generateResult generates tournament result from slice of teams.
 func generateResult(teams Teams) Result {
 	var result Result
 	for _, team := range teams {
 		result = append(result, team)
 	}
-	sort.Sort(result)
+	sort.Slice(result, func(i, j int) bool {
+		if result[i].points == result[j].points {
+			return result[i].name < result[j].name
+		}
+		return result[i].points > result[j].points
+	})
 	return result
-}
-
-// checkMatch checks if given match record is valid.
-func checkMatch(match []string) error {
-	if len(match) != 3 {
-		return fmt.Errorf("wrong match format")
-	}
-	if match[2] != "win" && match[2] != "loss" && match[2] != "draw" {
-		return fmt.Errorf("invalid result, must be win or loss")
-	}
-	return nil
 }
 
 // processMatch processes a match record.
@@ -100,17 +88,17 @@ func processMatch(teams Teams, match []string) {
 	switch match[2] {
 	case "win":
 		home.win++
-		home.point += 3
+		home.points += 3
 		away.loss++
 	case "loss":
 		home.loss++
 		away.win++
-		away.point += 3
+		away.points += 3
 	case "draw":
 		home.draw++
-		home.point++
+		home.points++
 		away.draw++
-		away.point++
+		away.points++
 	}
 	teams[match[0]], teams[match[1]] = home, away
 }

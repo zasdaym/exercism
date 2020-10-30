@@ -15,7 +15,7 @@ type Team struct {
 	win    int
 	loss   int
 	draw   int
-	points  int
+	points int
 }
 
 // String returns string representation of a team.
@@ -31,16 +31,16 @@ type Teams map[string]Team
 
 // Tally read teams matches from a io.Reader and prints the result to the given io.Writer.
 func Tally(r io.Reader, w io.Writer) error {
-	teams, err := readMatches(r)
+	teams, err := readMatchDataFrom(r)
 	if err != nil {
 		return err
 	}
 	result := generateResult(teams)
-	return printResult(w, result)
+	return writeResultTo(w, result)
 }
 
-// readMatches reads match records from a io.Reader and returns teams stats from it.
-func readMatches(r io.Reader) (Teams, error) {
+// readMatchDataFrom reads match records from an io.Reader and returns teams stats from it.
+func readMatchDataFrom(r io.Reader) (Teams, error) {
 	teams := make(Teams)
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
@@ -52,24 +52,34 @@ func readMatches(r io.Reader) (Teams, error) {
 		if match[0][0] == '#' {
 			continue
 		}
-		if err := checkMatch(match); err != nil {
-			return nil, err
+		if len(match) != 3 {
+			return nil, fmt.Errorf("wrong match format")
 		}
-		processMatch(teams, match)
+		a, b := teams[match[0]], teams[match[1]]
+		a.name = match[0]
+		b.name = match[1]
+		a.played++
+		b.played++
+		switch match[2] {
+		case "win":
+			a.win++
+			a.points += 3
+			b.loss++
+		case "loss":
+			a.loss++
+			b.win++
+			b.points += 3
+		case "draw":
+			a.draw++
+			a.points++
+			b.draw++
+			b.points++
+		default:
+			return nil, fmt.Errorf("match result must be win, lose, or draw")
+		}
+		teams[match[0]], teams[match[1]] = a, b
 	}
 	return teams, nil
-}
-
-// checkMatch checks if given match record is valid.
-func checkMatch(match []string) error {
-	if len(match) != 3 {
-		return fmt.Errorf("wrong match format")
-	}
-	switch match[2] {
-	case "win", "loss", "draw":
-		return nil
-	}
-	return fmt.Errorf("match result must be win, loss, or draw")
 }
 
 // generateResult generates tournament result from slice of teams.
@@ -87,33 +97,8 @@ func generateResult(teams Teams) Result {
 	return result
 }
 
-// processMatch processes a match record.
-func processMatch(teams Teams, match []string) {
-	home, away := teams[match[0]], teams[match[1]]
-	home.name = match[0]
-	away.name = match[1]
-	home.played++
-	away.played++
-	switch match[2] {
-	case "win":
-		home.win++
-		home.points += 3
-		away.loss++
-	case "loss":
-		home.loss++
-		away.win++
-		away.points += 3
-	case "draw":
-		home.draw++
-		home.points++
-		away.draw++
-		away.points++
-	}
-	teams[match[0]], teams[match[1]] = home, away
-}
-
-// printResult prints tournament result in table format to given writer.
-func printResult(w io.Writer, result Result) error {
+// writeResultTo writes tournament result table to given writer.
+func writeResultTo(w io.Writer, result Result) error {
 	if _, err := fmt.Fprintf(w, "Team                           | MP |  W |  D |  L |  P\n"); err != nil {
 		return err
 	}

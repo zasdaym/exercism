@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// Lyric represents a lyric part in twelve days song.
 type Lyric struct {
 	day  string
 	text string

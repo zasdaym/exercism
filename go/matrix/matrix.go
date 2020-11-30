@@ -37,10 +37,8 @@ func New(in string) (Matrix, error) {
 func (m Matrix) Rows() [][]int {
 	var newRows [][]int
 	for _, row := range m {
-		var newRow []int
-		for _, num := range row {
-			newRow = append(newRow, num)
-		}
+		newRow := make([]int, len(row))
+		copy(newRow, row)
 		newRows = append(newRows, newRow)
 	}
 	return newRows

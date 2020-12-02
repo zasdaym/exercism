@@ -1,6 +1,10 @@
 // Package erratum is solution for problem Error Handling.
 package erratum
 
+import (
+	"fmt"
+)
+
 // Use frobs a string to a resource.
 func Use(opener ResourceOpener, s string) (err error) {
 	resource, err := opener()
@@ -18,6 +22,8 @@ func Use(opener ResourceOpener, s string) (err error) {
 				err = e
 			case error:
 				err = e
+			default:
+				err = fmt.Errorf("unknown error")
 			}
 		}
 		resource.Close()

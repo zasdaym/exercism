@@ -14,6 +14,7 @@ func Use(opener ResourceOpener, s string) (err error) {
 		}
 		resource, err = opener()
 	}
+	defer resource.Close()
 	defer func() {
 		if r := recover(); r != nil {
 			switch e := r.(type) {
@@ -26,7 +27,6 @@ func Use(opener ResourceOpener, s string) (err error) {
 				err = fmt.Errorf("unknown error")
 			}
 		}
-		resource.Close()
 	}()
 	resource.Frob(s)
 	return nil

@@ -24,7 +24,7 @@ func Use(opener ResourceOpener, s string) (err error) {
 			case error:
 				err = e
 			default:
-				err = fmt.Errorf("unknown error")
+				err = fmt.Errorf("panic: %v", r)
 			}
 		}
 	}()

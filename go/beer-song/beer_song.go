@@ -7,6 +7,7 @@ import (
 
 var template string = "%d bottles of beer on the wall, %d bottles of beer.\nTake one down and pass it around, %d bottles of beer on the wall.\n"
 
+// Verse returns a specific verse.
 func Verse(n int) (string, error) {
 	if n == 0 {
 		return "No more bottles of beer on the wall, no more bottles of beer.\nGo to the store and buy some more, 99 bottles of beer on the wall.\n", nil
@@ -23,6 +24,7 @@ func Verse(n int) (string, error) {
 	return fmt.Sprintf(template, n, n, n-1), nil
 }
 
+// Verses returns a range of verses.
 func Verses(upper, lower int) (string, error) {
 	if upper < lower {
 		return "", fmt.Errorf("invalid start and stop verse number")

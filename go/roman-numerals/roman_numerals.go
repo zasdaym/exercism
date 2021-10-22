@@ -37,11 +37,13 @@ func ToRomanNumeral(arabic int) (string, error) {
 	var sb strings.Builder
 	for arabic > 0 {
 		for _, v := range arabicRomans {
-			if arabic >= v.arabic {
-				n := arabic / v.arabic
-				arabic -= n * v.arabic
-				sb.WriteString(strings.Repeat(v.roman, n))
+			if arabic < v.arabic {
+				continue
 			}
+
+			n := arabic / v.arabic
+			arabic -= n * v.arabic
+			sb.WriteString(strings.Repeat(v.roman, n))
 		}
 	}
 

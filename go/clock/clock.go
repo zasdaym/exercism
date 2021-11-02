@@ -27,14 +27,16 @@ const (
 
 // normalize normalizes hour and minute of Clock.
 func (c Clock) normalize() Clock {
-	totalMinutes := (c.hour*minutesInAHour + c.minute) % minutesInADay
-	if totalMinutes < 0 {
-		totalMinutes = minutesInADay + totalMinutes
-	}
+	totalMinutes := mod((c.hour*minutesInAHour + c.minute), minutesInADay)
 	c.hour = totalMinutes / 60
 	c.minute = totalMinutes % 60
 	return c
 }
+
+// mod returns the signed remainder of division of a by b.
+func mod(a, b int) int {
+	return (a % b + b) % b
+} 
 
 // String returns string representation of Clock.
 func (c Clock) String() string {

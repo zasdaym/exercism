@@ -2,39 +2,26 @@ class Clock
   private
 
   def initialize(hour: 0, minute: 0)
-    @hours = hour
-    @minutes = minute
-    self.normalize!
-  end
-
-  def normalize!
-    @hours = (minutes / 60 + hours) % 24
-    @minutes = minutes % 60
+    @minute = (minute % 60) + (minute / 60 + hour) % 24 * 60
   end
 
   public
 
-  attr_reader :hours, :minutes
+  attr_reader :minute
 
   def to_s
-    "#{'%02d' % hours}:#{'%02d' % minutes}"
+    "#{'%02d' % (minute / 60)}:#{'%02d' % (minute % 60)}"
   end
 
   def +(other)
-    @hours += other.hours
-    @minutes += other.minutes
-    self.normalize!
-    self
+    Clock.new(hour: 0, minute: minute + other.minute)
   end
 
   def -(other)
-    @hours -= other.hours
-    @minutes -= other.minutes
-    self.normalize!
-    self
+    Clock.new(hour: 0, minute: minute - other.minute)
   end
 
   def ==(other)
-    hours == other.hours && minutes == other.minutes
+    minute == other.minute
   end
 end

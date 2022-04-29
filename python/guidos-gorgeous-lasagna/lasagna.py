@@ -1,13 +1,15 @@
+"""Functions used in preparing Guido's gorgeus lasagna."""
+
 EXPECTED_BAKE_TIME = 40
 PREPARATION_TIME = 2
 
 def bake_time_remaining(elapsed_bake_time):
+    """Return remaining bake time."""
     return EXPECTED_BAKE_TIME - elapsed_bake_time
 
 
-# TODO: define the 'preparation_time_in_minutes()' function
-#       and consider using 'PREPARATION_TIME' here
 def preparation_time_in_minutes(layers):
+    """Return total preparation time for given number of layers."""
     return PREPARATION_TIME * layers
 
 

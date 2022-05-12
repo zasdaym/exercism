@@ -1,4 +1,4 @@
-import bitops, sequtils, sugar, tables
+import std/[bitops, sequtils, sugar, tables]
 
 const allergens = {
   "eggs": 1,

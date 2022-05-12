@@ -1,4 +1,4 @@
-import sequtils
+import std/sequtils
 
 proc distance*(a, b: string): int =
   if len(a) != len(b):

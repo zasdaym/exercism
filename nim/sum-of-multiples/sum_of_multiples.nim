@@ -1,4 +1,4 @@
-import sequtils
+import std/sequtils
 
 proc sum*(n: int, divisors: seq[int]): int =
   result = 0

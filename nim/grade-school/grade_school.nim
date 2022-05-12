@@ -1,4 +1,4 @@
-import algorithm, sequtils
+import std/[algorithm, sequtils]
 
 type
   Student = tuple

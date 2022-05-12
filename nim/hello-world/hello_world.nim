@@ -1,2 +1,1 @@
-proc hello*: string =
-  "Hello, World!"
+proc hello*: string = "Hello, World!"

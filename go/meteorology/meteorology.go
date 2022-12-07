@@ -10,14 +10,8 @@ const (
 )
 
 func (tu TemperatureUnit) String() string {
-	switch tu {
-	case Celsius:
-		return "°C"
-	case Fahrenheit:
-		return "°F"
-	default:
-		return ""
-	}
+	results := []string{"°C", "°F"}
+	return results[tu]
 }
 
 type Temperature struct {
@@ -25,7 +19,6 @@ type Temperature struct {
 	unit   TemperatureUnit
 }
 
-// Add a String method to the Temperature type
 func (t Temperature) String() string {
 	return fmt.Sprintf("%d %s", t.degree, t.unit)
 }
@@ -38,14 +31,8 @@ const (
 )
 
 func (su SpeedUnit) String() string {
-	switch su {
-	case KmPerHour:
-		return "km/h"
-	case MilesPerHour:
-		return "mph"
-	default:
-		return ""
-	}
+	results := []string{"km/h", "mph"}
+	return results[su]
 }
 
 type Speed struct {
@@ -65,6 +52,14 @@ type MeteorologyData struct {
 	humidity      int
 }
 
+// Add a String method to MeteorologyData
 func (md MeteorologyData) String() string {
-	return fmt.Sprintf("%s: %s, Wind %s at %s, %d%% Humidity", md.location, md.temperature, md.windDirection, md.windSpeed, md.humidity)
+	return fmt.Sprintf(
+		"%s: %s, Wind %s at %s, %d%% Humidity",
+		md.location,
+		md.temperature,
+		md.windDirection,
+		md.windSpeed,
+		md.humidity,
+	)
 }

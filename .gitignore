@@ -1,4 +1,5 @@
 .idea/
 .elixir-ls/
 .pytest_cache/
+_build/
 __pycache__/

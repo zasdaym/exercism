@@ -5,3 +5,6 @@
 _build/
 __pycache__/
 build/
+
+bin/
+obj/

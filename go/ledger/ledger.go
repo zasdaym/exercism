@@ -20,8 +20,16 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 		return "", err
 	}
 
+	header, err := generateHeader(locale)
+	if err != nil {
+		return "", err
+	}
+
+	var builder strings.Builder
+	builder.WriteString(header)
+
 	if len(entries) == 0 {
-		return generateHeader(locale)
+		return builder.String(), nil
 	}
 
 	localEntries := make([]Entry, len(entries))
@@ -32,14 +40,6 @@ func FormatLedger(currency string, locale string, entries []Entry) (string, erro
 		}
 		return localEntries[i].Date < localEntries[j].Date
 	})
-
-	header, err := generateHeader(locale)
-	if err != nil {
-		return "", err
-	}
-
-	var builder strings.Builder
-	builder.WriteString(header)
 
 	for _, entry := range localEntries {
 		entryDate, err := parseEntryDate(locale, entry.Date)

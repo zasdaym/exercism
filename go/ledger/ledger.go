@@ -77,12 +77,7 @@ func generateHeader(locale string) (string, error) {
 	default:
 		return "", fmt.Errorf("unknown locale")
 	}
-	return date +
-		strings.Repeat(" ", 10-len(date)) +
-		" | " +
-		description +
-		strings.Repeat(" ", 25-len(description)) +
-		" | " + change + "\n", nil
+	return fmt.Sprintf("%-10s | %-25s | %s\n", date, description, change), nil
 }
 
 func parseEntryDate(locale string, s string) (string, error) {

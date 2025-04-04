@@ -1,3 +1,3 @@
 # Exercism
 
-Personal solution of problems from https://exercism.org.
+Solutions for https://exercism.org.

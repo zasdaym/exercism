@@ -1,3 +1,3 @@
-# Exercism
+# exercism
 
 Solutions for https://exercism.org.

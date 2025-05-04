@@ -1,5 +1,12 @@
 class DndCharacter
-  attr_reader :charisma, :dexterity, :hitpoints, :intelligence, :strength, :wisdom, :constitution
+  attr_reader \
+    :charisma,
+    :dexterity,
+    :hitpoints,
+    :intelligence,
+    :strength,
+    :wisdom,
+    :constitution,
 
   def self.modifier(constitution)
     (constitution - 10) / 2

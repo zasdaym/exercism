@@ -4,72 +4,35 @@ type Domino [2]int
 
 func MakeChain(input []Domino) ([]Domino, bool) {
 	if len(input) == 0 {
-		return nil, true
+		return input, true
 	}
 	if len(input) == 1 {
 		return input, input[0][0] == input[0][1]
 	}
 
-	unused := make([]Domino, len(input))
-	copy(unused, input)
+	head := input[0]
+	for i, current := range input {
+		if i == 0 {
+			continue
+		}
 
-	for i := 0; i < len(unused); i++ {
-		first := unused[i]
-		chain := []Domino{first}
-		
-		unused[i] = unused[len(unused)-1]
-		remaining := unused[:len(unused)-1]
-		
-		if result, ok := backtrack(chain, remaining, first[0], first[1]); ok {
-			return result, true
+		if head[1] == current[1] {
+			current[0], current[1] = current[1], current[0]
 		}
-		if result, ok := backtrack(chain, remaining, first[1], first[0]); ok {
-			chain[0] = Domino{first[1], first[0]}
-			return result, true
-		}
-		
-		unused[i] = first
-	}
-	
-	return nil, false
-}
 
-func backtrack(chain []Domino, unused []Domino, start, end int) ([]Domino, bool) {
-	if len(unused) == 0 {
-		return chain, start == end
-	}
-	
-	for i := 0; i < len(unused); i++ {
-		dom := unused[i]
-		
-		if end == dom[0] {
-			newChain := append([]Domino{}, chain...)
-			newChain = append(newChain, dom)
-			
-			unused[i] = unused[len(unused)-1]
-			newUnused := unused[:len(unused)-1]
-			
-			if result, ok := backtrack(newChain, newUnused, start, dom[1]); ok {
-				return result, true
+		if head[1] == current[0] {
+			// Move the pair to start of the new chain, compact it because we only need the head and tail.
+			compacted := Domino([2]int{head[0], current[1]})
+			remaining := []Domino{compacted}
+			remaining = append(remaining, input[1:i]...)
+			remaining = append(remaining, input[i+1:]...)
+
+			chain, ok := MakeChain(remaining)
+			if ok {
+				fullChain := append([]Domino{head, current}, chain[1:]...)
+				return fullChain, true
 			}
-			
-			unused[i] = dom
-		}
-		
-		if end == dom[1] {
-			newChain := append([]Domino{}, chain...)
-			newChain = append(newChain, Domino{dom[1], dom[0]})
-			
-			unused[i] = unused[len(unused)-1]
-			newUnused := unused[:len(unused)-1]
-			
-			if result, ok := backtrack(newChain, newUnused, start, dom[0]); ok {
-				return result, true
-			}
-			
-			unused[i] = dom
 		}
 	}
-	
 	return nil, false
 }

@@ -14,6 +14,13 @@ type Bucket struct {
 	size, amount int
 }
 
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
 func gcd(a, b int) int {
 	for b != 0 {
 		a, b = b, a%b
